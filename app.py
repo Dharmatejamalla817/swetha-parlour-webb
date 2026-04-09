@@ -18,9 +18,23 @@ def init_db():
     check = cursor.execute("SELECT count(*) FROM services").fetchone()
     if check[0] == 0:
         menu = [
-            ('Facial', 'Clean up', '300'), ('Facial', 'Fruit Facial', '350'),
-            ('Facial', 'Gold Facial', '600'), ('Threading', 'Eyebrows', '40'),
-            ('Waxing', 'Under Arms', '100'), ('Hair Cut', 'Step Cut', '300')
+             ('Facial', 'Clean up', '300'),
+        ('Facial', 'Fruit Facial', '350'),
+        ('Facial', 'Gold Facial', '600'),
+        ('Facial', 'Diamond Facial', '700'),
+        ('Facial', 'O3+ Acne Treatment', '3000'),
+        ('Threading', 'Upper Lip', '10'),
+        ('Threading', 'Eyebrows', '40'),
+        ('Threading', 'Full Face', '150'),
+        ('Waxing', 'Under Arms', '100'),
+        ('Waxing', 'Full Legs', '400'),
+        ('Waxing', 'Face', '250'),
+        ('Manicure', 'Classic Manicure', '700'),
+        ('Hair Cut', 'U Cut', '100'),
+        ('Hair Cut', 'Step Cut', '300'),
+        ('Hair Cut', 'Layer Cut', '500'),
+        ('Hair Treatment', 'Hair Spa', '1000-2000'),
+        ('Hair Color', 'Global Highlights', '1000-2000')
         ]
         cursor.executemany("INSERT INTO services (category, name, price) VALUES (?, ?, ?)", menu)
     
