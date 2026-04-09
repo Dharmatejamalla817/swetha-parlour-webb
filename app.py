@@ -53,7 +53,7 @@ def book():
                  (name, service_id, date, time))
     conn.commit()
     conn.close()
-    return "<h1>Booking Confirmed!</h1><a href='/admin'>Click here to see the Admin Dashboard</a>"
+    return render_template('confirm.html', name=name)
 
 @app.route('/admin')
 def admin():
