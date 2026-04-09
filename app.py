@@ -115,7 +115,10 @@ def admin():
         enhanced_bookings.append(b_dict)
         
     conn.close()
-    return render_template('admin.html', bookings=enhanced_bookings)
+    # Sum up the prices of all booked services
+total_revenue = sum(int(b['price'].split('-')[0]) for b in bookings if b['price'].isdigit())
+return render_template('admin.html', bookings=readable, total=total_revenue)
+    
 
 if __name__ == '__main__':
     app.run(debug=False)
