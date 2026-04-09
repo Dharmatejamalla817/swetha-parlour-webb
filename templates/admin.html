@@ -38,6 +38,11 @@
                     <td>{{ booking.service_name }}</td>
                     <td>{{ booking.booking_date }}</td>
                     <td>{{ booking.booking_time }}</td>
+                    <td>
+    <form action="/delete/{{ booking.id }}" method="POST" style="display:inline;">
+        <button type="submit" class="btn-delete" onclick="return confirm('Done with this client?')">✅ Done</button>
+    </form>
+</td>
                 </tr>
                 {% else %}
                 <tr>
