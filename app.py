@@ -95,29 +95,35 @@ def book():
     
     return render_template('confirm.html', name=name, date=date)
 
-@app.route('/admin')
+
+    @app.route('/admin')
 def admin():
-    conn = get_db_connection()
-    bookings = conn.execute('''
-        SELECT bookings.*, services.name as service_name 
-        FROM bookings 
-        JOIN services ON bookings.service_id = services.id
-    ''').fetchall()
-    
-    # Add a "calculated end time" to each booking for display
-    enhanced_bookings = []
-    for b in bookings:
-        # Turn it into a dictionary so we can add a new key
-        b_dict = dict(b)
-        start = datetime.strptime(b['booking_time'], '%H:%M')
-        end = (start + timedelta(hours=2)).strftime('%I:%M %p') # Format as 02:00 PM
-        b_dict['end_time'] = end
-        enhanced_bookings.append(b_dict)
-    total_revenue = sum(int(b['price'].split('-')[0]) for b in bookings if b['price'].isdigit())    
-    conn.close()
-    # Sum up the prices of all booked services
-    
-    return render_template('admin.html', bookings=readable, total=total_revenue)
+    try:
+        conn = get_db_connection()
+        # We use a JOIN to get the service name and the price
+        bookings = conn.execute('''
+            SELECT bookings.id, bookings.customer_name, bookings.booking_date, 
+                   bookings.booking_time, services.name as service_name
+            FROM bookings 
+            JOIN services ON bookings.service_id = services.id
+        ''').fetchall()
+        
+        readable_bookings = []
+        for b in bookings:
+            b_dict = dict(b)
+            # Safe time formatting
+            try:
+                time_obj = datetime.strptime(b['booking_time'], '%H:%M')
+                b_dict['display_time'] = time_obj.strftime('%I:%M %p')
+            except:
+                b_dict['display_time'] = b['booking_time'] # Fallback if time is messy
+            
+            readable_bookings.append(b_dict)
+            
+        conn.close()
+        return render_template('admin.html', bookings=readable_bookings)
+    except Exception as e:
+        return f"<h1>Admin Error</h1><p>{str(e)}</p>" # This will tell us the EXACT error
     
 
 if __name__ == '__main__':
