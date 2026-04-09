@@ -113,10 +113,10 @@ def admin():
         end = (start + timedelta(hours=2)).strftime('%I:%M %p') # Format as 02:00 PM
         b_dict['end_time'] = end
         enhanced_bookings.append(b_dict)
-        
+    total_revenue = sum(int(b['price'].split('-')[0]) for b in bookings if b['price'].isdigit())    
     conn.close()
     # Sum up the prices of all booked services
-    total_revenue = sum(int(b['price'].split('-')[0]) for b in bookings if b['price'].isdigit())
+    
     return render_template('admin.html', bookings=readable, total=total_revenue)
     
 
