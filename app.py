@@ -116,8 +116,8 @@ def admin():
         
     conn.close()
     # Sum up the prices of all booked services
-total_revenue = sum(int(b['price'].split('-')[0]) for b in bookings if b['price'].isdigit())
-return render_template('admin.html', bookings=readable, total=total_revenue)
+    total_revenue = sum(int(b['price'].split('-')[0]) for b in bookings if b['price'].isdigit())
+    return render_template('admin.html', bookings=readable, total=total_revenue)
     
 
 if __name__ == '__main__':
