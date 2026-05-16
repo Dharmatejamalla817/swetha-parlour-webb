@@ -1,0 +1,15 @@
+name: Keep Render App Awake
+
+on:
+  schedule:
+    # This tells GitHub to run this task every 12 minutes
+    - cron: '*/12 * * * *'
+  # This button allows you to manually test it from GitHub anytime
+  workflow_dispatch: 
+
+jobs:
+  ping-site:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send regular web request to Render
+        run: curl -sI https://swetha-parlour-webb.onrender.com
